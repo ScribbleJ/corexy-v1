@@ -1,7 +1,13 @@
 include <vars.scad>
 
-display_assembly();
+//display_assembly();
+display_bearing_mount();
 
+
+module polyhole(r,h,v=6,a=0)
+{
+  rotate([0,0,a]) cylinder( h = h, r = r  / cos( 180 / v ), $fn = v );
+}
 
 module bolt(bolt_r = misc_bolt_r,bolthead_r = misc_bolthead_r,bolt_len = huge)
 {
@@ -141,17 +147,17 @@ module y_carriage(left = false)
   }
 }
 
-module display_bearing_mount(x_sep=10,z_sep=10,base_height=5,extra_height=2)
+module display_bearing_mount(x_sep=y_bearing_sep_y,z_sep=y_bearing_sep_z,base_height=bearing_mount_base,extra_height=bearing_mount_extra)
 {
   translate([0,0,5+2])
   {
     %display_retainer();
-    %translate([y_bearing_sep_y,0,y_bearing_sep_z]) display_retainer();
+    %translate([x_sep,0,z_sep]) display_retainer();
   }
-  bearing_mount(y_bearing_sep_y,y_bearing_sep_z);
+  bearing_mount(x_sep,z_sep);
 }
 
-module bearing_mount(x_sep = 10,z_sep = 10,base_height=5,extra_height=2)
+module bearing_mount(x_sep=y_bearing_sep_y,z_sep=y_bearing_sep_z,base_height=bearing_mount_base,extra_height=bearing_mount_extra)
 {
   difference()
   {
