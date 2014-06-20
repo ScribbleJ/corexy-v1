@@ -41,14 +41,15 @@ rod_r=rod_d/2;
 
 bushing_d=12;
 bushing_r=bushing_d/2;
+bushing_l=10;
 bushing_flange_r = bushing_r+3;
 bushing_flange_w = 1;
 bushing_material_thick = 5;
 
 x_rod_sep = 30;
-x_carriage_l = 30;
-x_mount_sep_x = x_carriage_l - 10;
-x_mount_sep_z = x_rod_sep - rod_d - misc_bolt_r*2;
+x_carriage_l = 40;
+x_mount_sep_x = x_carriage_l - bushing_l*2;
+x_mount_sep_z = x_rod_sep - rod_r - misc_bolt_r*2 -4;
 belt_above_x = 25;
 belt_clamp_w = 7;
 x_rod_past_bearing = 20;
