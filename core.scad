@@ -1,17 +1,45 @@
 include <vars.scad>
 
-display_assembly();
-//bearing_corner();
-//translate([-tslot_w*3,0,0]) bearing_corner(false);
+//display_assembly();
+bearing_corner();
+translate([-tslot_w*3,-tslot_w*3,0]) motor_corner(false);
 
-module support(l=bearing_mount_base+bearing_mount_extra+y_bearing_sep_z,w=bearing_hole_d * tan(180/6) *2)
+module y_holder()
 {
-  translate([-w/2,0,-l]) 
+  part_width = bushing_r*2+bushing_material_thick*2;
   difference()
   {
-    rotate([45,0,0]) cube([w,huge/2,huge/2]);
-    translate([-huge/2,0,0]) cube([huge,huge,huge]);
-    translate([-huge/2,-huge/2,l]) cube([huge,huge,huge]);
+    union()
+    {
+      //#translate([-part_width/2,0,0]) cube([part_width,calc_corner_above_x + x_rod_sep/2,tslot_w*2]);
+      //translate([0,-part_width/2,0]) cube([calc_corner_from_y_rod,part_width,tslot_w*2]);
+
+      translate([-part_width/2,0,tslot_w*2-part_width]) cube([part_width,calc_corner_from_y_rod,part_width]);
+      //translate([0,-part_width/2,0]) cube([calc_corner_from_y_rod,part_width,tslot_w*2]);
+
+
+      cylinder(r=part_width/2, h=tslot_w*2, $fn=6);
+      translate([0,0,-corner_thick]) cylinder(r=part_width/2, h=corner_thick, $fn=6);
+      //translate([0,-part_width/2,tslot_w*2 - part_width/2]) cube([calc_corner_from_y_rod,part_width,part_width/2]);
+    }
+    
+    translate([-huge/2,calc_corner_above_x + x_rod_sep/2 -tslot_w,-1]) cube([huge,tslot_w+1,tslot_w+1]);
+    translate([calc_corner_from_y_rod - tslot_w,-huge/2,-1]) cube([tslot_w+1,huge,tslot_w+1]);
+    translate([0,0,-1]) polyhole(r=rod_r,h=tslot_w*2+2);
+  }
+}
+
+module support(l=bearing_mount_base+bearing_mount_extra+y_bearing_sep_z,w=bearing_hole_d * tan(180/6) *2,extra=0)
+{
+  translate([-w/2,0,-l]) 
+  {
+    difference()
+    {
+      rotate([45,0,0]) cube([w,huge/2,huge/2]);
+      translate([-huge/2,0,0]) cube([huge,huge,huge]);
+      translate([-huge/2,-huge/2,l]) cube([huge,huge,huge]);
+    }
+    translate([0,-extra,-l]) cube([w,extra,l*2]);
   }
 
 }
@@ -27,8 +55,8 @@ module polycircle(r,v=6,a=0)
 
 module bolt(bolt_r = misc_bolt_r,bolthead_r = misc_bolthead_r,bolt_len = huge)
 {
-  translate([0,0,-bolt_len]) cylinder(r=bolt_r,h=bolt_len+1);
-  cylinder(r=bolthead_r,h=huge);
+  translate([0,0,-bolt_len]) polyhole(r=bolt_r,h=bolt_len+1);
+  polyhole(r=bolthead_r,h=huge);
 }
 
 module motor_bracket()
@@ -42,8 +70,8 @@ module motor_bracket()
       translate([-tslot_w/2,0,0]) cube([tslot_w/2+motor_bracket_thick+motor_bracket_len+corner_thick,corner_thick+motor_bracket_thick,motor_bracket_wide]);
       translate([0,-tslot_w/2,0]) cube([motor_bracket_thick+corner_thick,tslot_w/2+motor_bracket_thick,motor_bracket_wide]);
     }
-    translate([-tslot_w/2,corner_thick,motor_bracket_wide/2]) rotate([-90,0,0]) bolt(tslot_bolt_r,tslot_bolthead_r,$fn=8);
-    translate([corner_thick,-tslot_w/2,motor_bracket_wide/2]) rotate([0,90,0]) bolt(tslot_bolt_r,tslot_bolthead_r,$fn=8);
+    translate([-tslot_w/2,corner_thick,motor_bracket_wide/2]) rotate([-90,0,0]) bolt(tslot_bolt_r,tslot_bolthead_r);
+    translate([corner_thick,-tslot_w/2,motor_bracket_wide/2]) rotate([0,90,0]) rotate([0,0,360/12]) bolt(tslot_bolt_r,tslot_bolthead_r);
     translate([motor_bracket_thick+corner_thick+motor_bolt_offset,-huge/2,motor_bolt_offset]) rotate([-90,0,0]) cylinder(r=misc_bolt_r,h=huge);
     translate([motor_bracket_thick+corner_thick+motor_bolt_offset+motor_bolt_sep,-huge/2,motor_bolt_offset]) rotate([-90,0,0]) cylinder(r=misc_bolt_r,h=huge);
     translate([motor_bracket_thick+corner_thick,-huge - calc_corner_above_x + calc_motor2_above_x + corner_thick,-1]) cube([huge,huge,huge]);
@@ -59,16 +87,18 @@ module bearing_corner(left=true)
     {
       display_corner();
 
+      translate([0,calc_corner_above_x+x_rod_sep/2-corner_thick,calc_corner_from_y_rod+corner_thick]) rotate([-90,0,0]) rotate([0,90,0]) y_holder();
+
       if(left)
       {
         translate([tslot_w+bearing_bolt_r+bearing_bolt_holder_thick,0,calc_corner_from_y_rod+corner_thick-calc_motor_from_y_rod+calc_retainer_ir-motor_pulley_r]) rotate([0,-asin((motor_pulley_d+belt_thick)/y_bearing_sep_y),0]) rotate([90,180,0]) translate([-y_bearing_sep_y,0,0]) display_bearing_mount(v=6,a=-asin((motor_pulley_d+belt_thick)/y_bearing_sep_y));
         translate([tslot_w+bearing_bolt_r+bearing_bolt_holder_thick,0,calc_corner_from_y_rod+corner_thick-calc_motor_from_y_rod+calc_retainer_ir-motor_pulley_r-bearing_bolt_r-bearing_bolt_holder_thick]) support();
-        translate([tslot_w+bearing_bolt_r+bearing_bolt_holder_thick,0,calc_corner_from_y_rod+corner_thick-calc_motor_from_y_rod+calc_retainer_ir-motor_pulley_r-bearing_bolt_r-bearing_bolt_holder_thick]) rotate([0,-asin((motor_pulley_d+belt_thick)/y_bearing_sep_y),0]) translate([y_bearing_sep_y,0,0]) rotate([0,asin((motor_pulley_d+belt_thick)/y_bearing_sep_y),0]) support(l=bearing_mount_base+bearing_mount_extra);
+        translate([tslot_w+bearing_bolt_r+bearing_bolt_holder_thick,0,calc_corner_from_y_rod+corner_thick-calc_motor_from_y_rod+calc_retainer_ir-motor_pulley_r-bearing_bolt_r-bearing_bolt_holder_thick]) rotate([0,-asin((motor_pulley_d+belt_thick)/y_bearing_sep_y),0]) translate([y_bearing_sep_y,0,0]) rotate([0,asin((motor_pulley_d+belt_thick)/y_bearing_sep_y),0]) support(l=bearing_mount_base+bearing_mount_extra,extra=bearing_mount_base);
       }
       else
       {
         translate([tslot_w+bearing_bolt_r+bearing_bolt_holder_thick,0,calc_corner_from_y_rod+corner_thick-calc_motor_from_y_rod+calc_retainer_ir-motor_pulley_r]) rotate([0,-asin((motor_pulley_d+belt_thick)/y_bearing_sep_y),0]) rotate([90,0,0]) display_bearing_mount(v=6,a=-asin((motor_pulley_d+belt_thick)/y_bearing_sep_y));
-        translate([tslot_w+bearing_bolt_r+bearing_bolt_holder_thick,0,calc_corner_from_y_rod+corner_thick-calc_motor_from_y_rod+calc_retainer_ir-motor_pulley_r-bearing_bolt_r-bearing_bolt_holder_thick]) support(l=bearing_mount_base+bearing_mount_extra);
+        translate([tslot_w+bearing_bolt_r+bearing_bolt_holder_thick,0,calc_corner_from_y_rod+corner_thick-calc_motor_from_y_rod+calc_retainer_ir-motor_pulley_r-bearing_bolt_r-bearing_bolt_holder_thick]) support(l=bearing_mount_base+bearing_mount_extra,extra=bearing_mount_base);
         translate([tslot_w+bearing_bolt_r+bearing_bolt_holder_thick,0,calc_corner_from_y_rod+corner_thick-calc_motor_from_y_rod+calc_retainer_ir-motor_pulley_r-bearing_bolt_r-bearing_bolt_holder_thick]) rotate([0,-asin((motor_pulley_d+belt_thick)/y_bearing_sep_y),0]) translate([y_bearing_sep_y,0,0]) rotate([0,asin((motor_pulley_d+belt_thick)/y_bearing_sep_y),0]) support();
       }
     }
@@ -112,23 +142,32 @@ module motor()
 
 module display_assembly()
 {
-  translate([0,50,-x_rod_sep]) rotate([90,0,0]) x_carriage();
+  translate([0,60,-x_rod_sep]) rotate([90,0,0]) x_carriage();
 
   %translate([0,huge/2,0]) rotate([90,0,0]) cylinder(r=rod_r,h=huge);
   %translate([0,huge/2,-x_rod_sep]) rotate([90,0,0]) cylinder(r=rod_r,h=huge);
   %translate([-huge/2,0,-x_rod_sep/2]) rotate([0,90,0]) cylinder(r=rod_r,h=huge);
 
-  translate([0,bushing_r+bushing_material_thick,-x_rod_sep]) rotate([90,0,0]) y_carriage();
+  for(i=[0:1])
+  {
+    mirror([0,i,0])
+    {
+      translate([0,-i*100,0])
+      {
+        translate([0,bushing_r+bushing_material_thick,-x_rod_sep]) rotate([90,0,0]) y_carriage(i);
+        translate([tslot_w * 4,-calc_corner_from_y_rod,calc_corner_above_x]) rotate([0,180,0]) motor_corner();
+        translate([-tslot_w * 4,-calc_corner_from_y_rod-corner_thick,calc_corner_above_x-corner_thick]) rotate([-90,0,0]) bearing_corner(i?0:1);
 
-  translate([tslot_w * 4,-calc_corner_from_y_rod,calc_corner_above_x]) rotate([0,180,0]) motor_corner();
-  translate([-tslot_w * 4,-calc_corner_from_y_rod-corner_thick,calc_corner_above_x-corner_thick]) rotate([-90,0,0]) bearing_corner();
+        %translate([tslot_w*4 + corner_thick + motor_w/2 + motor_bracket_thick,
+                    bushing_r + bushing_material_thick - bearing_bolt_holder_thick - bearing_bolt_r - calc_retainer_or - motor_pulley_r,
+                    belt_above_x - motor_pulley_h + belt_w + belt_sep]) motor(); 
 
-  %translate([tslot_w*4 + corner_thick + motor_w/2 + motor_bracket_thick,
-              bushing_r + bushing_material_thick - bearing_bolt_holder_thick - bearing_bolt_r - calc_retainer_or - motor_pulley_r,
-              belt_above_x - motor_pulley_h + belt_w + belt_sep]) motor(); 
+        translate([tslot_w*4,-calc_motor_from_y_rod + motor_w/2, calc_corner_above_x - corner_thick]) rotate([90,0,0]) motor_bracket();
+        translate([tslot_w*4,-calc_motor_from_y_rod - motor_w/2, calc_corner_above_x - corner_thick]) rotate([90,0,0]) mirror([0,0,1]) motor_bracket();
 
-  translate([tslot_w*4,-calc_motor_from_y_rod + motor_w/2, calc_corner_above_x - corner_thick]) rotate([90,0,0]) motor_bracket();
-  translate([tslot_w*4,-calc_motor_from_y_rod - motor_w/2, calc_corner_above_x - corner_thick]) rotate([90,0,0]) mirror([0,0,1]) motor_bracket();
+      }
+    }
+  }
 }
 
 module print_y_carriages()

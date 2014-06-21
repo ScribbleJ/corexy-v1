@@ -50,7 +50,7 @@ x_rod_sep = 30;
 x_carriage_l = 40;
 x_mount_sep_x = x_carriage_l - bushing_l*2;
 x_mount_sep_z = x_rod_sep - rod_r - misc_bolt_r*2 -4;
-belt_above_x = 25;
+belt_above_x = 30;
 belt_clamp_w = 7;
 x_rod_past_bearing = 20;
 
