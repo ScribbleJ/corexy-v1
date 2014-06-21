@@ -1,8 +1,8 @@
 include <vars.scad>
 
-//display_assembly();
-bearing_corner();
-translate([-tslot_w*3,-tslot_w*3,0]) motor_corner(false);
+display_assembly();
+//bearing_corner();
+//translate([-tslot_w*3,-tslot_w*3,0]) motor_corner(false);
 
 module y_holder()
 {
@@ -115,12 +115,12 @@ module bearing_corner(left=true)
 
 module motor_corner()
 {
+  translate([0,calc_corner_from_y_rod,calc_corner_above_x+x_rod_sep/2]) rotate([180,0,0]) rotate([0,90,0]) y_holder();
   difference()
   {
     display_corner();
 
-    //#translate([0,calc_corner_from_y_rod-calc_motor_from_y_rod,0]) cylinder(r=5,h=50);
-    translate([-corner_thick-1,calc_corner_from_y_rod-calc_motor_from_y_rod-motor_w/2-1,-1]) 
+    #rotate([0,0,0]) translate([-corner_thick-1,calc_corner_from_y_rod-calc_motor_from_y_rod-motor_w/2-1,-1]) 
     difference()
     {
       cube([tslot_w+corner_thick+1,motor_w+2,tslot_w+corner_thick+1]);
@@ -299,9 +299,9 @@ module x_carriage()
     translate([0,x_rod_sep/2,-1]) polyhole(r=misc_bolt_r,h=huge);
 
     // Mounting holes for extruder
-    for(y=[x_mount_sep_z/2,-x_mount_sep_z/2])
+    for(y=[x_mount_offset,x_mount_offset - x_rod_sep])
     for(z=[x_mount_sep_x/2,-x_mount_sep_x/2])
-      translate([-huge/2,x_rod_sep/2+y,x_carriage_l/2+z]) rotate([0,90,0]) polyhole(r=misc_bolt_r,h=huge,v=6,a=360/12);
+      #translate([-huge/2,y,x_carriage_l/2+z]) rotate([0,90,0]) polyhole(r=misc_bolt_r,h=huge,v=6,a=360/12);
   }
 }
 
