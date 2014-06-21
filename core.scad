@@ -299,7 +299,7 @@ module x_carriage()
     translate([0,x_rod_sep/2,-1]) polyhole(r=misc_bolt_r,h=huge);
 
     // Mounting holes for extruder
-    for(y=[x_mount_offset,x_mount_offset - x_rod_sep])
+    for(y=[x_mount_offset,x_mount_offset + x_rod_sep])
     for(z=[x_mount_sep_x/2,-x_mount_sep_x/2])
       #translate([-huge/2,y,x_carriage_l/2+z]) rotate([0,90,0]) polyhole(r=misc_bolt_r,h=huge,v=6,a=360/12);
   }
