@@ -1,8 +1,7 @@
 include <vars.scad>
 
 display_assembly();
-//bearing_corner();
-//translate([-tslot_w*3,-tslot_w*3,0]) motor_corner(false);
+//motor_bracket(true);
 
 module y_holder()
 {
@@ -59,22 +58,36 @@ module bolt(bolt_r = misc_bolt_r,bolthead_r = misc_bolthead_r,bolt_len = huge)
   polyhole(r=bolthead_r,h=huge);
 }
 
-module motor_bracket()
+module motor_bracket(motor1=false)
 {
+  motornum = motor1 ? calc_motor1_above_x : calc_motor2_above_x;
+  motorpos = -calc_corner_above_x + motornum + corner_thick;
+
   difference()
   {
     union()
     {
+      // T-slot 'corner'
       translate([-tslot_w+1,0,0]) cube([tslot_w+corner_thick,corner_thick,motor_bracket_wide]);
       translate([0,-tslot_w+1,0]) cube([corner_thick,tslot_w+corner_thick,motor_bracket_wide]);
-      translate([-tslot_w/2,0,0]) cube([tslot_w/2+motor_bracket_thick+motor_bracket_len+corner_thick,corner_thick+motor_bracket_thick,motor_bracket_wide]);
-      translate([0,-tslot_w/2,0]) cube([motor_bracket_thick+corner_thick,tslot_w/2+motor_bracket_thick,motor_bracket_wide]);
+
+      // Motor Arm
+      translate([-tslot_w/2,0,0]) cube([tslot_w/2+motor_bracket_thick+motor_bracket_len+corner_thick,corner_thick+motor_bracket_thick+motorpos,motor_bracket_wide]);
+
+      // Spacer
+      translate([0,-tslot_w/2,0]) cube([motor_bracket_thick+corner_thick+motor_bracket_len,tslot_w/2+motor_bracket_thick,motor_bracket_wide]);
     }
+
+    // T-slot Bolt Holes
     translate([-tslot_w/2,corner_thick,motor_bracket_wide/2]) rotate([-90,0,0]) bolt(tslot_bolt_r,tslot_bolthead_r);
     translate([corner_thick,-tslot_w/2,motor_bracket_wide/2]) rotate([0,90,0]) rotate([0,0,360/12]) bolt(tslot_bolt_r,tslot_bolthead_r);
+
+    // Motor Bolt Holes
     translate([motor_bracket_thick+corner_thick+motor_bolt_offset,-huge/2,motor_bolt_offset]) rotate([-90,0,0]) cylinder(r=misc_bolt_r,h=huge);
     translate([motor_bracket_thick+corner_thick+motor_bolt_offset+motor_bolt_sep,-huge/2,motor_bolt_offset]) rotate([-90,0,0]) cylinder(r=misc_bolt_r,h=huge);
-    translate([motor_bracket_thick+corner_thick,-huge - calc_corner_above_x + calc_motor2_above_x + corner_thick,-1]) cube([huge,huge,huge]);
+
+    // Motor cutout
+    translate([motor_bracket_thick+corner_thick,-huge + motorpos,-1]) cube([huge,huge,huge]);
   }
 
 }
@@ -142,28 +155,38 @@ module motor()
 
 module display_assembly()
 {
-  translate([0,60,-x_rod_sep]) rotate([90,0,0]) x_carriage();
+  // X Carriage
+  translate([-printer_l/2,printer_w/2,-x_rod_sep]) rotate([90,0,0]) x_carriage();
 
-  %translate([0,huge/2,0]) rotate([90,0,0]) cylinder(r=rod_r,h=huge);
-  %translate([0,huge/2,-x_rod_sep]) rotate([90,0,0]) cylinder(r=rod_r,h=huge);
-  %translate([-huge/2,0,-x_rod_sep/2]) rotate([0,90,0]) cylinder(r=rod_r,h=huge);
+  // Reference Smooth Rods
+  // X rods
+  %translate([-printer_l/2,printer_w-tslot_w-2-corner_thick,0]) rotate([90,0,0]) cylinder(r=rod_r,h=printer_w-(tslot_w+2+corner_thick)*2);
+  %translate([-printer_l/2,printer_w-tslot_w-2-corner_thick,-x_rod_sep]) rotate([90,0,0]) cylinder(r=rod_r,h=printer_w-(tslot_w+2+corner_thick)*2);
+  // Y rods
+  %translate([-printer_l,calc_corner_from_y_rod,-x_rod_sep/2]) rotate([0,90,0]) cylinder(r=rod_r,h=printer_l);
+  %translate([-printer_l,printer_w-calc_corner_from_y_rod,-x_rod_sep/2]) rotate([0,90,0]) cylinder(r=rod_r,h=printer_l);
 
   for(i=[0:1])
   {
     mirror([0,i,0])
     {
-      translate([0,-i*100,0])
+      translate([0,(-i*printer_w)+calc_corner_from_y_rod,0])
       {
-        translate([0,bushing_r+bushing_material_thick,-x_rod_sep]) rotate([90,0,0]) y_carriage(i);
-        translate([tslot_w * 4,-calc_corner_from_y_rod,calc_corner_above_x]) rotate([0,180,0]) motor_corner();
-        translate([-tslot_w * 4,-calc_corner_from_y_rod-corner_thick,calc_corner_above_x-corner_thick]) rotate([-90,0,0]) bearing_corner(i?0:1);
+        // Y Carriages
+        translate([-printer_l/2,bushing_r+bushing_material_thick,-x_rod_sep]) rotate([90,0,0]) y_carriage(i);
+        // Motor Corner
+        translate([0,-calc_corner_from_y_rod,calc_corner_above_x]) rotate([0,180,0]) motor_corner();
+        // Bearing Corner
+        translate([-printer_l,-calc_corner_from_y_rod-corner_thick,calc_corner_above_x-corner_thick]) rotate([-90,0,0]) bearing_corner(i?0:1);
 
-        %translate([tslot_w*4 + corner_thick + motor_w/2 + motor_bracket_thick,
+        // Reference Motor
+        %translate([corner_thick + motor_w/2 + motor_bracket_thick,
                     bushing_r + bushing_material_thick - bearing_bolt_holder_thick - bearing_bolt_r - calc_retainer_or - motor_pulley_r,
-                    belt_above_x - motor_pulley_h + belt_w + belt_sep]) motor(); 
+                    belt_above_x - motor_pulley_h + belt_w + belt_sep - (i * (belt_w + belt_sep))]) motor(); 
 
-        translate([tslot_w*4,-calc_motor_from_y_rod + motor_w/2, calc_corner_above_x - corner_thick]) rotate([90,0,0]) motor_bracket();
-        translate([tslot_w*4,-calc_motor_from_y_rod - motor_w/2, calc_corner_above_x - corner_thick]) rotate([90,0,0]) mirror([0,0,1]) motor_bracket();
+        // Motor Brackets
+        translate([0,-calc_motor_from_y_rod + motor_w/2, calc_corner_above_x - corner_thick]) rotate([90,0,0]) motor_bracket(i);
+        translate([0,-calc_motor_from_y_rod - motor_w/2, calc_corner_above_x - corner_thick]) rotate([90,0,0]) mirror([0,0,1]) motor_bracket(i);
 
       }
     }
@@ -301,7 +324,7 @@ module x_carriage()
     // Mounting holes for extruder
     for(y=[x_mount_offset,x_mount_offset + x_rod_sep])
     for(z=[x_mount_sep_x/2,-x_mount_sep_x/2])
-      #translate([-huge/2,y,x_carriage_l/2+z]) rotate([0,90,0]) polyhole(r=misc_bolt_r,h=huge,v=6,a=360/12);
+      translate([-huge/2,y,x_carriage_l/2+z]) rotate([0,90,0]) polyhole(r=misc_bolt_r,h=huge,v=6,a=360/12);
   }
 }
 
@@ -311,9 +334,9 @@ module display_corner()
   translate([0,0,corner_thick])
   {
     // Display T-slot Reference
-    %cube([tslot_w,tslot_w,huge]);
-    %cube([tslot_w,huge,tslot_w]);
-    %cube([huge,tslot_w,tslot_w]);
+    %cube([tslot_w,tslot_w,printer_l]);
+    %cube([tslot_w,printer_l,tslot_w]);
+    %cube([printer_l,tslot_w,tslot_w]);
   }
 }
 

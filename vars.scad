@@ -1,5 +1,8 @@
 huge=500;
 
+printer_w = 500;
+printer_l = 500;
+
 bearing_w = 7;
 bearing_d = 22;
 bearing_r = bearing_d/2;
@@ -10,6 +13,8 @@ bearing_hole_r = bearing_hole_d/2;
 misc_bolt_d = 3.2;
 misc_bolt_r = misc_bolt_d/2;
 misc_nut_r  = misc_bolt_d;
+misc_bolthead_d = misc_bolt_d*2;
+misc_bolthead_r = misc_bolthead_d/2;
 
 retainer_shell_thick = 0.5;
 retainer_shell_sep   = 0.5;
