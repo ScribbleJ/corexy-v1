@@ -108,14 +108,14 @@ bed_mount_sep   = 209;
 bed_from_z      = 60;
 bed_box_r       = 25;
 bed_box_h       = 50;
-platform_l      =  laser_mat_margin + laser_mat_thick + bed_box_r + bed_from_z + bed_mount_sep + misc_bolt_r + laser_mat_margin;
+z_ends_sep = printer_l - tslot_w*2 - corner_thick*2 - motor_w;
+platform_l      =  laser_mat_margin*2 + laser_mat_thick*2 + bed_box_r*2 + z_ends_sep;
 platform_w      = bed_mount_sep + misc_bolt_r*2 + laser_mat_margin*2;
 z_leadscrew_passthrough_r = 12/2;
 leadscrew_bolt_offset = 22/2;
 leadscrew_bolt_r = 3.2/2;
 laser_bushing_fudge = 0.1;
 
-z_ends_sep = printer_l - tslot_w*2 - corner_thick*2 - motor_w;
 
 lm8uu_d=15;
 lm8uu_r=lm8uu_d/2;
