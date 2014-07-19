@@ -115,10 +115,13 @@ leadscrew_bolt_offset = 22/2;
 leadscrew_bolt_r = 3.2/2;
 laser_bushing_fudge = 0.1;
 
+z_ends_sep = printer_l - tslot_w*2 - corner_thick*2 - motor_w;
+
 lm8uu_d=15;
 lm8uu_r=lm8uu_d/2;
 lm8uu_bolt_r=5/2;
 lm8uu_nut_r=10/2;
 
+arduino_width=60;
 
 

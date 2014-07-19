@@ -1,9 +1,11 @@
 include <common.scad>
 use <platform.scad>
 
-  display_platform_assembly();
-  translate([z_rod_sep/2,0,laser_mat_thick]) rotate([0,0,60]) lm8uu_retainer();
-  translate([-z_rod_sep/2,0,laser_mat_thick]) rotate([0,0,60]) lm8uu_retainer();
+//  display_platform_assembly();
+//  translate([z_rod_sep/2,0,laser_mat_thick]) rotate([0,0,60]) lm8uu_retainer();
+//  translate([-z_rod_sep/2,0,laser_mat_thick]) rotate([0,0,60]) lm8uu_retainer();
+
+//z_end();
 
 module lm8uu_retainer()
 {
@@ -122,23 +124,28 @@ module z_end(motor=false)
     union()
     {
       cube([z_rod_sep,tslot_w,corner_thick]);
-      scale([0.5,1,1]) rotate([-90,0,0]) cylinder(r=rod_holder_r, h=tslot_w+corner_thick);
-      translate([z_rod_sep,0,0]) scale([0.5,1,1]) rotate([-90,0,0]) cylinder(r=rod_holder_r, h=tslot_w+corner_thick);
+      translate([0,-corner_thick,0])
+      {
+        scale([0.5,1,1]) rotate([-90,0,0]) cylinder(r=rod_holder_r, h=tslot_w+corner_thick*2);
+        translate([z_rod_sep,0,0]) scale([0.5,1,1]) rotate([-90,0,0]) cylinder(r=rod_holder_r, h=tslot_w+corner_thick*2);
+      }
     }
     translate([-huge/2,-huge/2,-huge]) cube([huge,huge,huge]);
 
     // Rod holders
-    translate([0,-1,corner_thick + motor_w/2])
+    translate([0,0,corner_thick + motor_w/2])
     {
       rotate([-90,0,0])
       {
-        polyhole(r=rod_r,h=tslot_w + 1,v=8,a=360/16);
-        translate([z_rod_sep,0,0]) polyhole(r=rod_r,h=tslot_w + 1,v=8,a=360/16);
+        polyhole(r=rod_r,h=huge,v=8,a=360/16);
+        translate([z_rod_sep,0,0]) polyhole(r=rod_r,h=huge,v=8,a=360/16);
       }
     }
 
     // Tslot bolts
-    for(x=[rod_holder_r/2 - tslot_bolthead_r,z_rod_sep - rod_holder_r/2 + tslot_bolthead_r])
+    for(x=[rod_holder_r/2 - tslot_bolthead_r,z_rod_sep - rod_holder_r/2 + tslot_bolthead_r,
+           -rod_holder_r/2 + tslot_bolthead_r,z_rod_sep + rod_holder_r/2 - tslot_bolthead_r
+          ])
     {
       translate([x,tslot_w/2,corner_thick]) bolt(tslot_bolt_r,tslot_bolthead_r);
     }
