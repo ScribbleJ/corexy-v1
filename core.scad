@@ -2,7 +2,7 @@ include <common.scad>
 use <platform.scad>
 use <standardextruder.scad>
 
-//display_assembly();
+display_assembly();
 
 //retainer();
 //translate([35,0,0]) retainer(false);
@@ -21,7 +21,7 @@ use <standardextruder.scad>
 //z_end(false);
 //corner();
 
-lm8uu_retainer();
+//lm8uu_retainer();
 
 module lm8uu_retainer()
 {
