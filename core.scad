@@ -2,12 +2,12 @@ include <common.scad>
 use <platform.scad>
 use <standardextruder.scad>
 
-display_assembly();
+//display_assembly();
 
 //retainer();
 //translate([35,0,0]) retainer(false);
-//y_carriage();
-//translate([-45,0,0]) mirror([1,0,0]) y_carriage(true);
+y_carriage();
+translate([-45,0,0]) mirror([1,0,0]) y_carriage(true);
 //mirror([1,0,0]) bearing_corner(false);
 //bearing_corner();
 //translate([0,35,0]) display_bearing_mount(v=6);
@@ -254,7 +254,7 @@ module display_assembly()
   // X Carriage
   translate([-printer_l/2,printer_w/2+x_carriage_l/2,-x_rod_sep]) rotate([90,0,0]) x_carriage();
   //translaste([-printer_l/2,printer_w/2+x_carriage_l/2,-x_rod_sep]) 
-  translate([-printer_l/2-bushing_r-bushing_material_thick,printer_w/2+x_mount_sep_x/2+corner_thick,x_mount_offset+corner_thick]) rotate([0,90,180]) extruder_standard();
+  //translate([-printer_l/2-bushing_r-bushing_material_thick,printer_w/2+x_mount_sep_x/2+corner_thick,x_mount_offset+corner_thick]) rotate([0,90,180]) extruder_standard();
 
   // Bottom Corners
   translate([0,0,-printer_h-corner_thick+tslot_w])
@@ -334,13 +334,15 @@ module y_carriage(left = false)
       }
 
       // Y-rod passthrough
-      translate([0,x_rod_sep/2,0]) rotate([0,90,0])
-      linear_extrude(height = y_bearing_sep_y + y_bearing_offset)
+      translate([0,x_rod_sep+y_above_x,0]) 
+      rotate([0,90,0])
+//      linear_extrude(height = y_bearing_sep_y + y_bearing_offset)
+      linear_extrude(height = y_carriage_len-part_width/2)
       {
         translate([-part_width/2,0]) circle(r=part_width/2);
-        translate([-part_width,0]) circle(r=misc_nut_r);
+        //translate([-part_width,0]) circle(r=misc_nut_r);
         translate([-part_width/2,-part_width/2]) 
-          square([part_width/2, part_width/2 + x_rod_sep/2 + belt_above_x - belt_above_bearing_mount + bearing_mount_base]);
+          square([part_width/2, part_width/2 + belt_above_y - belt_above_bearing_mount + bearing_mount_base]);
       }
     }
 
@@ -352,8 +354,8 @@ module y_carriage(left = false)
     }
 
     // Y-rod hole
-    translate([-huge/2,x_rod_sep/2,part_width/2]) rotate([0,90,0]) polyhole(r=bushing_r,h=huge,v=8,a=22.5);
-    translate([-huge/2,x_rod_sep/2,part_width]) rotate([0,90,0]) polyhole(r=smallhole(misc_bolt_r,misc_bolt_pitch),h=huge,v=8,a=22.5);
+    translate([-huge/2,x_rod_sep+y_above_x,part_width/2]) rotate([0,90,0]) polyhole(r=bushing_r,h=huge,v=8,a=22.5);
+    //translate([-huge/2,y_above_x,part_width]) rotate([0,90,0]) polyhole(r=smallhole(misc_bolt_r,misc_bolt_pitch),h=huge,v=8,a=22.5);
 
     // Clear bearing mount holes
     translate([y_bearing_offset + y_bearing_sep_y, x_rod_sep + belt_above_x - belt_above_bearing_mount, bearing_bolt_r+bearing_bolt_holder_thick]) rotate([-90,0,0]) polyhole(r=smallhole(bearing_hole_r,bearing_bolt_pitch),h=huge,v=6);
@@ -395,14 +397,14 @@ module bearing_mount(x_sep=y_bearing_sep_y,z_sep=y_bearing_sep_z,base_height=bea
 
 module x_carriage()
 {
-  x_len = x_rod_sep + belt_above_x + belt_w*2 + belt_sep + misc_nut_r*2;
+  x_len = x_rod_sep + belt_above_x + belt_w*2 + belt_sep + misc_nut_r*2.5;
   difference()
   {
     // Shape
     linear_extrude(height=x_carriage_l)
     {
       circle(r=bushing_r+bushing_material_thick);
-      translate([0,x_len]) circle(r=bushing_r+bushing_material_thick);
+      //translate([0,x_len]) circle(r=bushing_r+bushing_material_thick);
       translate([-(bushing_r+bushing_material_thick), 0]) square([2*(bushing_r+bushing_material_thick),x_len]);
     }
 
@@ -426,10 +428,10 @@ module x_carriage()
       translate([-huge/2,y,z]) rotate([0,90,0]) polyhole(r=misc_bolt_r,h=huge,v=6,a=360/12);
 
     // Hole for bushing cap
-    translate([0,x_rod_sep/2,-1]) polyhole(r=smallhole(misc_bolt_r,misc_bolt_pitch),h=huge);
+    //translate([0,x_rod_sep/2,-1]) polyhole(r=smallhole(misc_bolt_r,misc_bolt_pitch),h=huge);
 
     // Mounting holes for extruder
-    for(y=[x_mount_offset,x_mount_offset + x_rod_sep])
+    for(y=[x_mount_offset,x_rod_sep - x_mount_offset])
     for(z=[x_mount_sep_x/2,-x_mount_sep_x/2])
       translate([-huge/2,y,x_carriage_l/2+z]) rotate([0,90,0]) polyhole(r=misc_bolt_r,h=huge,v=6,a=360/12);
   }

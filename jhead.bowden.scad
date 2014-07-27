@@ -1,7 +1,7 @@
 include <common.scad>
 
 jhead_top_h = 4.8;
-jhead_top_d = 16;
+jhead_top_d = 15.9;
 jhead_top_r = jhead_top_d/2;
 jhead_groove_d = 12.2;
 jhead_groove_r = jhead_groove_d/2;
@@ -24,11 +24,11 @@ module xconn()
 {
   difference()
   {
-    cube([x_rod_sep + corner_thick*2,x_mount_sep_x+corner_thick*2,corner_thick]);
+    cube([x_rod_sep-x_mount_offset*2+corner_thick*2,x_mount_sep_x+corner_thick*2,corner_thick]);
 
-    translate([x_rod_sep/2+corner_thick,x_mount_sep_x/2+corner_thick,0])
+    translate([x_rod_sep/2 - x_mount_offset + corner_thick,x_mount_sep_x/2+corner_thick,0])
     {
-      for(x=[x_rod_sep/2,-x_rod_sep/2])
+      for(x=[x_rod_sep/2 - x_mount_offset,-x_rod_sep/2 + x_mount_offset])
       for(y=[x_mount_sep_x/2,-x_mount_sep_x/2])
         translate([x,y,corner_thick]) bolt(bolt_r=misc_bolt_r,bolthead_r=misc_bolthead_r);
     }
@@ -60,7 +60,7 @@ module jhead()
       polyhole(r=ptc_thread_r,h=huge);
       // Jhead groove
       for(x=[jhead_groove_r+groove_bolt_r,-jhead_groove_r-groove_bolt_r])
-        translate([x,huge/2,1+jhead_groove_h-groove_bolt_r]) rotate([90,0,0]) polyhole(r=groove_bolt_r,h=huge);
+        #translate([x,huge/2,1.1+jhead_groove_h-groove_bolt_r]) rotate([90,0,0]) polyhole(r=groove_bolt_r,h=huge);
       // Fan
   #    for(y=[fan_bolt_sep/2,-fan_bolt_sep/2])
         translate([-huge/2,y,1+jhead_groove_h+(jhead_top_h+ptc_thread_l)/2]) rotate([0,90,0]) polyhole(r=misc_bolt_r,h=huge);
