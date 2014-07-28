@@ -1,11 +1,17 @@
 include <common.scad>
 use <platform.scad>
 
-//  display_platform_assembly();
+display_z_assembly();
 //  translate([z_rod_sep/2,0,laser_mat_thick]) rotate([0,0,60]) lm8uu_retainer();
 //  translate([-z_rod_sep/2,0,laser_mat_thick]) rotate([0,0,60]) lm8uu_retainer();
 
-//z_end();
+module display_z_bottom()
+{
+  z_rod_holder();
+  translate([z_rod_sep,0,0]) z_rod_holder();
+  rotate([-90,0,0]) translate([-motor_w/2-corner_thick+z_rod_sep/2,-motor_w-corner_thick,-motor_h+corner_thick+tslot_w/2]) z_motor_mount();
+}
+
 
 module lm8uu_retainer()
 {
@@ -28,14 +34,21 @@ module lm8uu_retainer()
 
 module display_z_assembly()
 {
-  // Z top
-  translate([-z_rod_sep/2,motor_w/2 + corner_thick,printer_h-tslot_w]) rotate([90,0,0]) z_end();
-  // Z bottom
-  rotate([0,0,180]) translate([-z_rod_sep/2,-(motor_w/2+corner_thick),tslot_w]) rotate([-90,0,0]) z_end(true);
+  for(m=[0,1])
+  {
+    mirror([0,m,0])
+    translate([0,m*(platform_l-laser_mat_thick*2-laser_mat_margin*2-bed_box_r*2),0])
+    {
+      // Z top
+      translate([-z_rod_sep/2,motor_w/2 + corner_thick,printer_h-tslot_w]) rotate([90,0,0]) z_end();
+      // Z bottom
+      rotate([0,0,180]) translate([-z_rod_sep/2,-(motor_w/2+corner_thick),tslot_w]) rotate([-90,0,0]) display_z_bottom();
 
-  // Display rods
-  for(x=[z_rod_sep/2,-z_rod_sep/2])
-    translate([x,0,0]) %cylinder(r=rod_r,h=printer_h);
+      // Display rods
+      for(x=[z_rod_sep/2,-z_rod_sep/2])
+        translate([x,0,0]) %cylinder(r=rod_r,h=printer_h);
+    }
+  }
 
   // Platform
   translate([0,0,printer_h/2]) display_platform_assembly();
@@ -112,7 +125,7 @@ module z_motor_mount()
     translate([-huge/2,-huge/2,-huge]) cube([huge,huge,huge]);
     translate([-huge/2,-huge/2,motor_bracket_thick+motor_h-corner_thick]) cube([huge,huge,huge]);
 
-    #translate([-huge/2,motor_w+corner_thick,motor_h+motor_bracket_thick-tslot_w-corner_thick]) cube([huge,tslot_w,tslot_w]);
+    translate([-huge/2,motor_w+corner_thick,motor_h+motor_bracket_thick-tslot_w-corner_thick]) cube([huge,tslot_w,tslot_w]);
   }
 }
 

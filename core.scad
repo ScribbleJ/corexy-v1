@@ -1,13 +1,13 @@
 include <common.scad>
-use <platform.scad>
+use <z_parts.scad>
 use <standardextruder.scad>
 
-//display_assembly();
+display_assembly();
 
 //retainer();
 //translate([35,0,0]) retainer(false);
-y_carriage();
-translate([-45,0,0]) mirror([1,0,0]) y_carriage(true);
+//y_carriage();
+//translate([-45,0,0]) mirror([1,0,0]) y_carriage(true);
 //mirror([1,0,0]) bearing_corner(false);
 //bearing_corner();
 //translate([0,35,0]) display_bearing_mount(v=6);
@@ -42,6 +42,7 @@ module lm8uu_retainer()
   }
 }
 
+/*
 module display_z_assembly()
 {
   // Z top
@@ -109,6 +110,8 @@ module z_end(motor=false)
 
   }
 }
+
+*/
 
 module y_holder()
 {

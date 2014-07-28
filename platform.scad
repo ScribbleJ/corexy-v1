@@ -1,7 +1,9 @@
 include <common.scad>
-display_platform_laser();
+//display_platform_laser();
 
 //linear_extrude(height=5) platform_base();
+
+display_platform_assembly();
 
 
 module display_platform_assembly()
@@ -19,10 +21,12 @@ module display_platform_assembly()
     translate([platform_w/2,laser_mat_margin+laser_mat_thick])
       for(x=[-z_rod_sep/4,z_rod_sep/4])
         translate([x+laser_mat_thick/2,0,laser_mat_thick]) rotate([0,-90,0]) linear_extrude(height=laser_mat_thick) platform_center();
-    // Rear Panel
+    // Rear Panels
     translate([laser_mat_thick + laser_mat_margin*2 + misc_bolt_r*2, laser_mat_thick + laser_mat_margin, laser_mat_thick]) rotate([90,0,0]) linear_extrude(height=laser_mat_thick) platform_rear();
-    // bottom 
+    translate([laser_mat_thick + laser_mat_margin*2 + misc_bolt_r*2, platform_l - laser_mat_margin, laser_mat_thick]) rotate([90,0,0]) linear_extrude(height=laser_mat_thick) platform_rear();
+    // bottoms
     translate([laser_mat_thick + misc_bolt_r*2,0,bed_box_h + laser_mat_thick]) linear_extrude(height=laser_mat_thick) platform_bottom();
+    translate([laser_mat_thick + misc_bolt_r*2,platform_l,bed_box_h + laser_mat_thick]) mirror([0,1,0]) linear_extrude(height=laser_mat_thick) platform_bottom();
   }
 }
 
