@@ -253,14 +253,12 @@ module display_assembly()
 {
 
   // Z assembly
-  translate([-tslot_w-motor_w/2-corner_thick,printer_w/2,-printer_h+tslot_w]) rotate([0,0,-90]) display_z_assembly();
+  translate([-tslot_w-motor_w/2-corner_thick,printer_w/2,-printer_h+corner_thick]) rotate([0,0,-90]) display_z_assembly();
   // X Carriage
   translate([-printer_l/2,printer_w/2+x_carriage_l/2,-x_rod_sep]) rotate([90,0,0]) x_carriage();
-  //translaste([-printer_l/2,printer_w/2+x_carriage_l/2,-x_rod_sep]) 
-  //translate([-printer_l/2-bushing_r-bushing_material_thick,printer_w/2+x_mount_sep_x/2+corner_thick,x_mount_offset+corner_thick]) rotate([0,90,180]) extruder_standard();
 
   // Bottom Corners
-  translate([0,0,-printer_h-corner_thick+tslot_w])
+  translate([0,0,-printer_h])
   {
     rotate([0,0,90]) display_corner();
     translate([-printer_l,0,0]) display_corner();
