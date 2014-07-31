@@ -189,7 +189,7 @@ module bearing_corner(left=true)
     {
       display_corner();
 
-      translate([0,calc_corner_above_x+x_rod_sep/2-corner_thick,calc_corner_from_y_rod+corner_thick]) rotate([-90,0,0]) rotate([0,90,0]) y_holder();
+      translate([0,calc_corner_above_x-y_above_x-corner_thick,calc_corner_from_y_rod+corner_thick]) rotate([-90,0,0]) rotate([0,90,0]) y_holder();
 
       if(left)
       {
@@ -217,7 +217,7 @@ module bearing_corner(left=true)
 
 module motor_corner(ehole=motor_corner_extra_hole_pos)
 {
-  translate([0,calc_corner_from_y_rod,calc_corner_above_x+x_rod_sep/2]) rotate([180,0,0]) rotate([0,90,0]) y_holder();
+  translate([0,calc_corner_from_y_rod,calc_corner_above_x-y_above_x]) rotate([180,0,0]) rotate([0,90,0]) y_holder();
   difference()
   {
     display_corner();
@@ -273,8 +273,8 @@ module display_assembly()
   %translate([-printer_l/2,printer_w-tslot_w-2-corner_thick,0]) rotate([90,0,0]) cylinder(r=rod_r,h=printer_w-(tslot_w+2+corner_thick)*2);
   %translate([-printer_l/2,printer_w-tslot_w-2-corner_thick,-x_rod_sep]) rotate([90,0,0]) cylinder(r=rod_r,h=printer_w-(tslot_w+2+corner_thick)*2);
   // Y rods
-  %translate([-printer_l,calc_corner_from_y_rod,-x_rod_sep/2]) rotate([0,90,0]) cylinder(r=rod_r,h=printer_l);
-  %translate([-printer_l,printer_w-calc_corner_from_y_rod,-x_rod_sep/2]) rotate([0,90,0]) cylinder(r=rod_r,h=printer_l);
+  %translate([-printer_l,calc_corner_from_y_rod,y_above_x]) rotate([0,90,0]) cylinder(r=rod_r,h=printer_l);
+  %translate([-printer_l,printer_w-calc_corner_from_y_rod,y_above_x]) rotate([0,90,0]) cylinder(r=rod_r,h=printer_l);
 
   for(i=[0:1])
   {
