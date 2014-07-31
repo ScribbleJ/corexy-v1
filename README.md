@@ -2,6 +2,10 @@
 
 Instructions coming soon.
 
+Gallery of design and construction photos here:
+
+http://imgur.com/a/doNUN
+
 See core_assembly.scad for full design, individual files for instructions on what parts to print.
 
 ## Non-printed parts list (INCOMPLETE!):
