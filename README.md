@@ -1,4 +1,6 @@
 CoreXY Beta
 
-The code needs some serious refactoring.  I wouldn't recommend using it quite yet.
+Instructions coming soon.
+
+See core_assembly.scad for full design, individual files for instructions on what to print.
 
