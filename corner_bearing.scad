@@ -1,6 +1,14 @@
+// 'Front' Corners with mounts for bearings.  
+// Print 1 of bearing_corner(true) and 1 of mirror([1,0,0]) bearing_corner(false);
+// (c) 2014, Christopher "ScribbleJ" Jansen
 include <common.scad>
 use <corner.scad>
 use <bearing_mount.scad>
+
+translate([-corner_thick*2 -5 ,0,0])
+mirror([1,0,0]) bearing_corner(false);
+bearing_corner();
+
 
 module bearing_corner(left=true)
 {

@@ -1,3 +1,7 @@
+// T-slot Mount for Bowden Extruder. 
+// Bowden Extruder at: http://www.thingiverse.com/thing:112478
+// Optional.  Print 2.
+// (c) 2014, Christopher "ScribbleJ" Jansen
 include <common.scad>
 mount_dist = 30;
 total_dist = 50;

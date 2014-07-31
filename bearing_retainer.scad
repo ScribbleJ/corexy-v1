@@ -1,4 +1,11 @@
+// Retainer for belt-carrying bearings.  
+// Print 8.
+// (c) 2014, Christopher "ScribbleJ" Jansen
 include <common.scad>
+
+retainer();
+translate([calc_retainer_or*2 + 5,0,0]) retainer(false);
+
 
 module display_retainer()
 {

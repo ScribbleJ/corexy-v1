@@ -1,5 +1,10 @@
+// Y-Carriage
+// Print 1 of y_carriage(false), 1 of mirror([1,0,0]) y_carriage(true)
+// (c) 2014, Christopher "ScribbleJ" Jansen
 include <common.scad>
 use <bearing_mount.scad>
+
+print_y_carriages();
 
 module print_y_carriages()
 {

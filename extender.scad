@@ -1,7 +1,11 @@
+// T-Slot coupler
 // Because I'm stupid and cut two rods too short.
+// Print none.  Unless you are stupid, too.
+// (c) 2014, Christopher "ScribbleJ" Jansen
 include <common.scad>
 
 extender();
+
 module extender()
 {
   difference()

@@ -1,4 +1,9 @@
+// Clamp for belt on X-carriage.  
+// Print 2.
+// (c) 2014, Christopher "ScribbleJ" Jansen
 include <common.scad>
+
+belt_clamp();
 
 module belt_clamp()
 {

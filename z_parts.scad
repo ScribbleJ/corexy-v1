@@ -1,9 +1,16 @@
+// Various parts for Z Assembly.
+// Print 4 of lm8uu_retainer(), 4 of z_rod_holder(), 2 of z_motor_mount, 2 of z_end()
+// TODO: Should be broken out to separate files eventually.
+// (c) 2014, Christopher "ScribbleJ" Jansen
 include <common.scad>
 use <platform.scad>
 
 display_z_assembly();
-//  translate([z_rod_sep/2,0,laser_mat_thick]) rotate([0,0,60]) lm8uu_retainer();
-//  translate([-z_rod_sep/2,0,laser_mat_thick]) rotate([0,0,60]) lm8uu_retainer();
+
+//lm8uu_retainer();
+//z_rod_holder();
+//z_motor_mount();
+//z_end();
 
 module display_z_bottom()
 {

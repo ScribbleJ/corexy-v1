@@ -1,3 +1,6 @@
+// X-Carriage adaptor for bowden J-head.
+// Optional.  Print 1.
+// (c) 2014, Christopher "ScribbleJ" Jansen
 include <common.scad>
 
 jhead_top_h = 4.8;
@@ -17,8 +20,13 @@ fan_bolt_off = fan_bolt_sep - (jhead_top_d+corner_thick*2);
 groove_bolt_d = 3;
 groove_bolt_r = groove_bolt_d/2;
 
-xconn();
-translate([corner_thick+misc_nut_r,x_mount_sep_x/2+corner_thick,corner_thick-0.01]) rotate([0,90,0]) translate([-jhead_top_d-corner_thick*2,-jhead_top_r-corner_thick,0]) jhead();
+jhead_bowden();
+
+module jhead_bowden()
+{
+  xconn();
+  translate([corner_thick+misc_nut_r,x_mount_sep_x/2+corner_thick,corner_thick-0.01]) rotate([0,90,0]) translate([-jhead_top_d-corner_thick*2,-jhead_top_r-corner_thick,0]) jhead();
+}
 
 module xconn()
 {
@@ -60,9 +68,9 @@ module jhead()
       polyhole(r=ptc_thread_r,h=huge);
       // Jhead groove
       for(x=[jhead_groove_r+groove_bolt_r,-jhead_groove_r-groove_bolt_r])
-        #translate([x,huge/2,1.1+jhead_groove_h-groove_bolt_r]) rotate([90,0,0]) polyhole(r=groove_bolt_r,h=huge);
+        translate([x,huge/2,1.1+jhead_groove_h-groove_bolt_r]) rotate([90,0,0]) polyhole(r=groove_bolt_r,h=huge);
       // Fan
-  #    for(y=[fan_bolt_sep/2,-fan_bolt_sep/2])
+      for(y=[fan_bolt_sep/2,-fan_bolt_sep/2])
         translate([-huge/2,y,1+jhead_groove_h+(jhead_top_h+ptc_thread_l)/2]) rotate([0,90,0]) polyhole(r=misc_bolt_r,h=huge);
     }
 

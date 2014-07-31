@@ -1,3 +1,6 @@
+// Bearing Mounting
+// Used in other parts.  None to be printed directly.
+// (c) 2014, Christopher "ScribbleJ" Jansen
 include <common.scad>
 use <bearing_retainer.scad>
 

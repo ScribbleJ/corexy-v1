@@ -1,3 +1,6 @@
+// T-slot Mounting for RepRapDiscount Full Graphic LCD.
+// Print 2 of crescent(), 2 of mount().
+// (c) 2014, Christopher "ScribbleJ" Jansen
 include <common.scad>
 
 bolt_sep = 85;
@@ -5,6 +8,7 @@ bolt_z   = 4.75;
 segments = 32;
 
 crescent();
+rotate([0,0,90]) mount();
 
 module mount()
 {
@@ -47,8 +51,8 @@ module crescent()
     // Display attachment bolts
     for(z=[corner_thick,tslot_w-corner_thick])
     {
-      #translate([corner_thick, bolt_sep/2,z]) rotate([0,90,0]) bolt(a=360/12);
-      #translate([corner_thick+bolt_z, -bolt_sep/2,z]) rotate([0,90,0]) bolt(a=360/12);
+      translate([corner_thick, bolt_sep/2,z]) rotate([0,90,0]) bolt(a=360/12);
+      translate([corner_thick+bolt_z, -bolt_sep/2,z]) rotate([0,90,0]) bolt(a=360/12);
     }
 
     // Mounting holes

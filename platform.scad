@@ -1,9 +1,11 @@
+// Laser cut parts for Z platform.
+// Some versions of OpenSCAD have difficulty displaying these parts, until after you compile and render with CGAL.
+// Cut 1 of platform_base(), 2 of platform_side, 2 of platform_center, 2 of platform_rear, 2 of platform_bottom.
+// (c) 2014, Christopher "ScribbleJ" Jansen
 include <common.scad>
-//display_platform_laser();
 
-//linear_extrude(height=5) platform_base();
-
-display_platform_assembly();
+display_platform_laser();
+//display_platform_assembly();
 
 
 module display_platform_assembly()

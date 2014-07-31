@@ -1,4 +1,9 @@
+// Bare corner parts for 'bottom' corners.
+// Print 4
+// (c) 2014, Christopher "ScribbleJ" Jansen
 include <common.scad>
+
+corner();
 
 module display_corner()
 {

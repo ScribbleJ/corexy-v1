@@ -1,3 +1,6 @@
+// Display full printer assembly
+// TODO: Some parts missing.
+// (c) 2014, Christopher "ScribbleJ" Jansen
 include <common.scad>
 use <z_parts.scad>
 use <standardextruder.scad>
@@ -11,26 +14,6 @@ use <corner_bearing.scad>
 use <motor_bracket.scad>
 
 display_assembly();
-
-//retainer();
-//translate([35,0,0]) retainer(false);
-//y_carriage();
-//translate([-45,0,0]) mirror([1,0,0]) y_carriage(true);
-//mirror([1,0,0]) bearing_corner(false);
-//bearing_corner();
-//translate([0,35,0]) display_bearing_mount(v=6);
-//x_carriage();
-//rotate([0,-90,0]) translate([corner_thick,corner_thick,0]) motor_corner();
-//mirror([1,0,0]) rotate([0,-90,0]) translate([corner_thick,corner_thick,0]) motor_corner();
-//bearing_mount_cap();
-//motor_bracket(true);
-//translate([-45,0,0]) mirror([1,0,0]) motor_bracket(true);
-//belt_clamp();
-//z_end(false);
-//corner();
-
-//lm8uu_retainer();
-
 
 module display_assembly()
 {

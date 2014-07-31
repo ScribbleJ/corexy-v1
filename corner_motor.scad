@@ -1,5 +1,12 @@
+// 'Back' Corners with space to mount motors.
+// Print 1 of motor_corner() and 1 of mirror([1,0,0]) motor_corner();
+// (c) 2014, Christopher "ScribbleJ" Jansen
 include <common.scad>
 use <corner.scad>
+
+translate([-5,0,0]) 
+rotate([0,-90,0]) translate([corner_thick,corner_thick,0]) motor_corner();
+mirror([1,0,0]) rotate([0,-90,0]) translate([corner_thick,corner_thick,0]) motor_corner();
 
 module motor_corner(ehole=motor_corner_extra_hole_pos)
 {

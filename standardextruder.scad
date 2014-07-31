@@ -1,3 +1,6 @@
+// X-carriage mount for standard 50mm reprap extruders.
+// Optional.  Print 1.
+// (c) 2014, Christopher "ScribbleJ" Jansen
 include <common.scad>
 
 extruder_standard();
@@ -42,6 +45,6 @@ module extruder_standard()
     }
 
     translate([x_rod_sep-x_mount_offset*2+corner_thick*2,-huge/2,-1]) cube([huge,huge,huge]);
-    #translate([x_rod_sep - x_mount_offset*2 + corner_thick*2,-huge/2,corner_thick]) rotate([0,-atan((x_rod_sep/2 - x_mount_offset - corner_thick)/(50)),0]) cube([huge,huge,huge]);
+    translate([x_rod_sep - x_mount_offset*2 + corner_thick*2,-huge/2,corner_thick]) rotate([0,-atan((x_rod_sep/2 - x_mount_offset - corner_thick)/(50)),0]) cube([huge,huge,huge]);
   }
 }

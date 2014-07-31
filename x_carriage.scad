@@ -1,4 +1,14 @@
+// X-Carriage
+// Print 1.
+// (c) 2014, Christopher "ScribbleJ" Jansen
 include <common.scad>
+
+x_carriage();
+
+module display_x_carriage()
+{
+  x_carriage();
+}
 
 module x_carriage()
 {

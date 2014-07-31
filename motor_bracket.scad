@@ -1,4 +1,16 @@
+// Bracket to attach motors at proper height on corner_motor.
+// Print 1 motor_bracket(true), 1 mirror([1,0,0]) motor_bracket(true), 1 motor_bracket(false), 1 mirror([1,0,0]) motor_bracket(false)
+// (c) 2014, Christopher "ScribbleJ" Jansen
 include <common.scad>
+
+motor_bracket(true);
+translate([-45,0,0]) mirror([1,0,0]) motor_bracket(true);
+translate([0,45,0])
+{
+  motor_bracket(false);
+  translate([-45,0,0]) mirror([1,0,0]) motor_bracket(false);
+}
+
 
 module motor_bracket(motor1=false)
 {

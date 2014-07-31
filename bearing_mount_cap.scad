@@ -1,4 +1,10 @@
+// Bearing Mount Cap
+// Optional cap for bearing mounts, print 4.
+// (c) 2014, Christopher "ScribbleJ" Jansen
 include <common.scad>
+
+bearing_mount_cap();
+
 
 module bearing_mount_cap(x_sep=y_bearing_sep_y,z_sep=y_bearing_sep_z,base_height=bearing_mount_base,extra_height=bearing_mount_extra,v=32,a=0)
 {

@@ -1,3 +1,6 @@
+// Variables used throughout design.
+// Yes, these could use some commenting.
+// (c) 2014, Christopher "ScribbleJ" Jansen
 huge=500;
 
 printer_w = 400;
