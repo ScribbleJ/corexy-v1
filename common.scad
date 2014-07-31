@@ -43,3 +43,18 @@ module maketabs(l=100,w=5,num=10)
     translate([x,0]) square([tablength,w]);
 }
 
+module support(l=bearing_mount_base+bearing_mount_extra+y_bearing_sep_z+calc_retainer_b_off,w=bearing_hole_d * tan(180/6) *2,extra=0,extra_l=0)
+{
+  translate([-w/2,0,-l]) 
+  {
+    difference()
+    {
+      rotate([45,0,0]) cube([w,huge/2,huge/2]);
+      translate([-huge/2,0,0]) cube([huge,huge,huge]);
+      translate([-huge/2,-huge/2,l]) cube([huge,huge,huge]);
+    }
+    translate([0,-extra,-extra_l/2]) cube([w,extra,extra_l]);
+  }
+
+}
+
