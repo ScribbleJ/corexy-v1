@@ -11,8 +11,9 @@ printer_h = 400;
 huge=500;
 
 // 608 Bearings
-bearing_w = 7;
-bearing_d = 22;
+//Added some extra space to the bearing retainer so I don't break them during assembly
+bearing_w = 7*1.01;  
+bearing_d = 22*1.01;
 bearing_r = bearing_d/2;
 bearing_hole_d = 8;
 bearing_hole_r = bearing_hole_d/2;
@@ -25,8 +26,15 @@ misc_bolt_pitch = 0.5;
 misc_bolthead_d = misc_bolt_d*2;
 misc_bolthead_r = misc_bolthead_d/2;
 
+//Retainer for using a regular bolt (M8) instead of a proper leadscrew as the Z lift nut.
+liftNut_d = 8;
+liftNut_od = liftNut_d *2;
+liftNut_h = liftNut_d * 0.8;
+liftNutRetainer_h = liftNut_h ;
+
 // Bearing retainers
-retainer_shell_thick = 0.5;
+//Added some extra thickness to the bearing retainer so I don't break them during assembly
+retainer_shell_thick = 0.6;
 retainer_shell_sep   = 0.25;
 retainer_lip_thick   = 2;
 retainer_inner_width = 1;
