@@ -22,6 +22,7 @@ Please note this list doesn't include anything for an extruder.  The design incl
 * 2x 8mm rod, 345mm length (X axis)
 * 16x LM8UU Bearing
 * 2x MakersToolWorks Leadscrews ( http://store.makerstoolworks.com/motion/z-axis-lead-screw-and-nut-single/ )
+*    Optional: 2x M8x1.25 threaded rod, 400mm length + 2x M8x1.25 nuts.
 * 1x Set of two MakersToolWorks shaft couplers (optional, can use vinyl tubing) ( http://store.makerstoolworks.com/motion/helical-shaft-couplers-set-of-2/ )
 * LOTS T-slot Nuts, M5 Threads
 * LOTS M5x10 Bolts
