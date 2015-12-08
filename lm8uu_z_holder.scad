@@ -1,17 +1,11 @@
-// Various parts for Z Assembly.
-// Print 4 of lm8uu_retainer(), 4 of z_rod_holder(), 2 of z_motor_mount, 2 of z_end()
-// TODO: Should be broken out to separate files eventually.
+// LM8uu Holder for z axis.
+// Print 4 of lm8uu_retainer()
 // (c) 2014, Christopher "ScribbleJ" Jansen
 include <common.scad>
 use <platform.scad>
 
+lm8uu_retainer();
 
-
-
-
-//lm8uu_retainer();
-//translate([40,0,0]) 
-    liftNut_retainer();
 
 module lm8uu_retainer()
 {

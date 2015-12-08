@@ -1,9 +1,9 @@
-// Various parts for Z Assembly.
-// Print 4 of lm8uu_retainer(), 4 of z_rod_holder(), 2 of z_motor_mount, 2 of z_end()
-// TODO: Should be broken out to separate files eventually.
+// Assembly of Z axis.
+//See used files files for printing instructions.
 // (c) 2014, Christopher "ScribbleJ" Jansen
 include <common.scad>
 use <lm8uu_z_holder.scad>
+use <liftnut_z_holder.scad>
 use <z_rod_holder.scad>
 use <z_motor_mount.scad>
 use <z_end.scad>
